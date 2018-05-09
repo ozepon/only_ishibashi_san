@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
+    .form{
+      position: absolute;
+      top: 50vh;
+      left: 50vw;
+      transform: translateX(-50%);
+    }
+    .line_at_label{
+      font-size: .5rem;
+      /* color: gray; */
+    }
+    .line_at_name {
+      width:10rem;
+      padding: .5rem;
+    }
     .reservation_button {
       width: 10rem;
     background: #1bb71f;
@@ -12,32 +26,37 @@
     padding: .5rem;
     color: white;
     border-radius: .5rem;
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translateX(-50%);
+
     }
   </style>
   <title>石橋さん</title>
 </head>
 <body>
-    <div class="reservation_button">
-      予約申し込み      
+    <div class="form">
+      <label for="" class='line_at_label'>line@のid</label> <input type="text" id='line_at_name' class='line_at_name' placeholder="line@のidを@付きで入力">
+      <div class="reservation_button">
+        予約申し込み      
+      </div>
     </div>
   </a>
   <script>
-    var id = '@cku0056o';
-    var message = "MICHI オリジナルボディ【60分】の商品についてお問い合わせがあります。https://staging-hey.herokuapp.com/bm/427/435"
-    var query = encodeURIComponent(message);
-
-    var baseUrl = 'https://line.me/R/oaMessage'
-    var url = `${baseUrl}/${id}/?${query}`
-
     var reservButton = document.querySelector('.reservation_button');
     reservButton.addEventListener('click',function(){
-      var result = confirm('Lineアプリで予約します。よろしいですか？');
-      if(result){
-        location.href = url;
+      var id = document.querySelector('#line_at_name').value;
+      var reg = /^@/;
+
+      if(reg.test(id)){
+        var message = "MICHI オリジナルボディ【60分】の商品についてお問い合わせがあります。https://staging-hey.herokuapp.com/bm/427/435"
+        var query = encodeURIComponent(message);
+
+        var baseUrl = 'https://line.me/R/oaMessage'
+        var url = `${baseUrl}/${id}/?${query}`  
+        var result = confirm('Lineアプリで予約します。よろしいですか？');
+        if(result){
+          location.href = url;
+        }
+      }else{
+        alert('line@のidを入力してください');
       }
     });
   </script>
